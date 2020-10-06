@@ -1,0 +1,18 @@
+﻿@{
+    if (TempData.ContainsKey(Alert.TempDataKey))
+    {
+        if (TempData[Alert.TempDataKey] != null)
+        {
+            var alert = TempData[Alert.TempDataKey] as Alert;
+
+            var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+            <div class="mt-2 alert alert-@alert.AlertStyle @dismissableClass">
+                @if (alert.Dismissable)
+                {
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                }
+                @Html.Raw(alert.Message)
+            </div>
+        }
+    }
+}

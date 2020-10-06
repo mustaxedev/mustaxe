@@ -1,0 +1,58 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@inject IAuthorizationService AuthorizationService
+
+<!-- *APP-HEADER* -->
+<header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index"></a>
+    
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <ul class="nav navbar-nav d-md-down-none">
+            <li class="nav-item px-3">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    Item 1
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 1.1</a>
+                </div>
+            </li>
+
+            <li class="nav-item px-3">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    Item 2
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 2.1</a>
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 2.2</a>
+                </div>
+            </li>
+
+            <li class="nav-item px-3">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    Item 3
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 3.1</a>
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 3.2</a>
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 3.3</a>
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 3.4</a>
+                    <a class="dropdown-item" asp-controller="" asp-action="Index">Item 3.5</a>
+                </div>
+            </li>
+        </ul>
+    }
+
+    <ul class="nav navbar-nav ml-auto mr-4">
+        @Html.PartialAsync("_UserNav")
+    </ul>
+
+</header>
+<!-- /*APP-HEADER* -->

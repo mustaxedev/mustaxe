@@ -1,0 +1,128 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="ID-Ativos">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
+
+    <link rel="shortcut icon" href="~/img/omni_logo01.png">
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Main styles for this application -->
+    <environment include="Development,Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" />
+		<link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+
+        <link rel="stylesheet" href="~/css/style.css">
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+
+    <!-- Styles required by this view -->
+    @RenderSection("Styles", required: false)
+
+</head>
+
+<!-- BODY options, add following classes to body to change options
+
+// Header options
+1. '.header-fixed'					- Fixed Header
+
+// Brand options
+1. '.brand-minimized'       - Minimized brand (Only symbol)
+
+// Sidebar options
+1. '.sidebar-fixed'					- Fixed Sidebar
+2. '.sidebar-hidden'				- Hidden Sidebar
+3. '.sidebar-off-canvas'		- Off Canvas Sidebar
+4. '.sidebar-minimized'			- Minimized Sidebar (Only icons)
+5. '.sidebar-compact'			  - Compact Sidebar
+
+// Aside options
+1. '.aside-menu-fixed'			- Fixed Aside Menu
+2. '.aside-menu-hidden'			- Hidden Aside Menu
+3. '.aside-menu-off-canvas'	- Off Canvas Aside Menu
+
+// Breadcrumb options
+1. '.breadcrumb-fixed'			- Fixed Breadcrumb
+
+// Footer options
+1. '.footer-fixed'					- Fixed footer
+
+-->
+@*<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">*@
+
+<body class="app header-fixed aside-menu-hidden">
+
+    <!-- *APP-HEADER* -->
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @Html.PartialAsync("_AppHeader")
+    }
+
+    <!-- /*APP-HEADER* -->
+
+    <div class="app-body">
+        <!-- *SIDEBAR-NAV* -->
+        <div class="sidebar d-lg-none">
+
+            @Html.PartialAsync("_SidebarNav")
+            <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+
+        </div>
+        <!-- *SIDEBAR-NAV* -->
+
+        <!-- *MAIN CONTENT* -->
+        <main class="main">
+
+            <!-- /*BREADCRUMB* -->
+            <!-- /*BREADCRUMB* -->
+
+            <!-- *CONTAINER-FLUID* -->
+            <div class="container-fluid">
+                @{ await Html.RenderPartialAsync("_Alerts"); }
+
+                <!-- *PAGE* -->
+                @RenderBody()
+                <!-- /*PAGE* -->
+            </div>
+            <!-- /*CONTAINER-FLUID* -->
+        </main>
+        <!-- /*MAIN CONTENT* -->
+    </div>
+
+    <footer class="app-footer">
+        <span><a href="#">I-Dutto</a> - @DateTime.Now.Year.ToString()</span>
+        <span class="ml-auto">Desenvolvido Por <a href="#">I-Dutto</a> <label class="@(SignInManager.IsSignedIn(User) ? "" : "d-none")" id="users-online"></label> <label class="@(SignInManager.IsSignedIn(User) ? "" : "d-none")"> usuário(s) online</label></span>
+    </footer>
+
+    <!-- JQuery Scripts -->
+
+    <script src="https://kit.fontawesome.com/5b32c8293d.js" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/popper.js/umd/popper.js"></script>
+    <script src="~/lib/moment/moment.mim.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
+    
+    <!-- CoreUI main scripts -->
+    <script src="~/js/app.js"></script>
+
+    <!-- Custom scripts required by this view -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
