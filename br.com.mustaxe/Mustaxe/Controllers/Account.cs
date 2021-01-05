@@ -48,13 +48,21 @@ namespace Mustaxe.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos");
                     return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
@@ -65,7 +73,7 @@ namespace Mustaxe.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Index", "Home");
             }
         }
     }

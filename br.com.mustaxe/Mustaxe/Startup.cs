@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mustaxe.Data;
+using Mustaxe.Extensions;
 using Mustaxe.Models;
 
 namespace Mustaxe
@@ -31,11 +32,13 @@ namespace Mustaxe
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddClaimsPrincipalFactory<ApplicationClaimsIdentityFactory>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,11 +54,13 @@ namespace Mustaxe
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthorization();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

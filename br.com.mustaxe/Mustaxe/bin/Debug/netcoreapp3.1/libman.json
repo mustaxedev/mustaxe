@@ -24,6 +24,14 @@
     {
       "library": "tempusdominus-bootstrap-4@5.1.2",
       "destination": "wwwroot/lib/tempusdominus-bootstrap-4/"
+    },
+    {
+      "library": "formatter.js@0.1.5",
+      "destination": "wwwroot/lib/formatter.js/"
+    },
+    {
+      "library": "jquery.datatables.js@1.10.21",
+      "destination": "wwwroot/lib/dataTables.js/"
     }
   ]
 }

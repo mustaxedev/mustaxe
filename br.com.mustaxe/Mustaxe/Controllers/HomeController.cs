@@ -2,24 +2,32 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mustaxe.Models;
+using Mustaxe.ViewModels;
+using Newtonsoft.Json;
 
 namespace Mustaxe.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+    
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _clienteFactory;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IHttpClientFactory clienteFactory)
         {
             _logger = logger;
+            _clienteFactory = clienteFactory;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();

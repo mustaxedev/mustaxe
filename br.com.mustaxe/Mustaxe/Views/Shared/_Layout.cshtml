@@ -23,17 +23,17 @@
     <environment include="Development,Staging,Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" />
-		<link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
 
         <link rel="stylesheet" href="~/css/style.css">
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/rr-1.2.7/datatables.min.css" />
     </environment>
 
     <!-- Styles required by this view -->
     @RenderSection("Styles", required: false)
 
 </head>
-
 <!-- BODY options, add following classes to body to change options
 
 // Header options
@@ -68,7 +68,7 @@
     <!-- *APP-HEADER* -->
     @if (SignInManager.IsSignedIn(User))
     {
-        @Html.PartialAsync("_AppHeader")
+        @Html.Partial("_AppHeader")
     }
 
     <!-- /*APP-HEADER* -->
@@ -77,21 +77,19 @@
         <!-- *SIDEBAR-NAV* -->
         <div class="sidebar d-lg-none">
 
-            @Html.PartialAsync("_SidebarNav")
+            @Html.Partial("_SidebarNav")
             <button class="sidebar-minimizer brand-minimizer" type="button"></button>
 
         </div>
         <!-- *SIDEBAR-NAV* -->
-
         <!-- *MAIN CONTENT* -->
         <main class="main">
 
             <!-- /*BREADCRUMB* -->
             <!-- /*BREADCRUMB* -->
-
             <!-- *CONTAINER-FLUID* -->
             <div class="container-fluid">
-                @{ await Html.RenderPartialAsync("_Alerts"); }
+                @{Html.RenderPartial("_Alerts");}
 
                 <!-- *PAGE* -->
                 @RenderBody()
@@ -112,13 +110,15 @@
     <script src="https://kit.fontawesome.com/5b32c8293d.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/popper.js/umd/popper.js"></script>
-    <script src="~/lib/moment/moment.mim.js"></script>
+    <script src="~/lib/moment.js/moment.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/jqueryui/jquery-ui.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
-    
+    <script src="~/lib/formatter.js/jquery.formatter.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/rr-1.2.7/datatables.min.js"></script>
+
     <!-- CoreUI main scripts -->
     <script src="~/js/app.js"></script>
 

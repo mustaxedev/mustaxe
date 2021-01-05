@@ -2,7 +2,380 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .select-documento-box {
+        border: 1px solid #e2e2e2;
+        padding: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .select-documento-box .k-icon {
+            font-size: 15px;
+            float: right;
+            font-weight: bolder;
+            margin-top: -7px;
+            height: 10px;
+            width: 14px;
+            color: #787878;
+        }
+
+    .select-documento-box-detail {
+        display: none;
+        position: absolute;
+        border: 1px solid #e2e2e2;
+        overflow-y: hidden;
+    }
+
+    .select-documento-box-body {
+        overflow-y: scroll;
+    }
+
+    .select-documento-box-detail .cont {
+        clear: both;
+        overflow: hidden;
+        padding: 2px;
+        background-color: white;
+    }
+
+        .select-documento-box-detail .cont:hover {
+            background-color: #cfcfcf;
+        }
+
+    .select-documento-box-body > div > div {
+        float: left;
+    }
+
+    .select-documento-box-detail > div > div:nth-child(1) {
+    }
+
+    .select-documento-box-header {
+        overflow: hidden;
+        position: relative;
+        height: 28px;
+        background-color: #3d3d3d;
+    }
+
+        .select-documento-box-header > input {
+            position: absolute;
+            top: 4px;
+            left: 3px;
+        }
+
+        .select-documento-box-header > div {
+            position: absolute;
+            top: 5px;
+            left: 24px;
+            color: #fff;
+        }
+
+    .mulinput {
+        margin-right: 10px;
+    }
+
+</style>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+        <select class="form-control mb-2" disabled>
+            <option>--Selecione--</option>
+            <option value="1">American Black Bear</option>
+            <option value="2">Asiatic Black Bear</option>
+            <option value="3">Brown Bear</option>
+        </select>
+
+        <select id="select-documento">
+            <option value="1">American Black Bear</option>
+            <option value="2">Asiatic Black Bear</option>
+            <option value="3" selected disabled>Brown Bear</option>
+        </select>*@
+
+    <button class="btn btn-sm btn-success submit">Adicionar</button>
+
+    <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Sequence</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    
+                </tr>
+            </thead>
+        </table>
+
+        @*<table id="example" class="display nowrap" width="100%">
+            <thead>
+                <tr>
+                    <th>Sequence</th>
+                    <th>#</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+        </table>*@
+
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var customObjects = [];
+
+            var aDemoItems = [
+                {
+                    "id": 1,
+                    "sequence": 1,
+                    "name": "LanTest101",
+                    "position": "Developer",
+                },
+
+                {
+                    "id": 2,
+                    "sequence": 2,
+                    "name": "LanTest102",
+                    "position": "CEO",
+                },
+
+                {
+                    "id": 3,
+                    "sequence": 3,
+                    "name": "Test1111",
+                    "position": "Professor",
+                },
+            ]
+
+            var table = $('#example').DataTable({
+                columns: [
+                    { data: 'sequence' },
+                    { data: 'name' },
+                    { data: 'position' }
+                ],
+                columnDefs: [
+                    { className: "cl_sequence", "targets": [0] },
+                    { className: "cl_name", "targets": [1] },
+                    { className: "cl_position", "targets": [2] }
+                ],
+                data: aDemoItems,
+                rowReorder: {
+                    dataSrc: 'sequence',
+                }
+            });
+
+            table.on('row-reordered', function (e, diff, edit) {
+                ReordernarTabela();
+            });
+
+            $('.btn-danger').on('click', function () {
+                table.row($(this).parents('tr')).remove().draw(false);
+
+                ReordernarTabela();
+            })
+
+            @*$('.btn-success').on('click', function () {
+                AdicionarRegistro();
+
+                ReordernarTabela();
+            });*@
+
+            function ReordernarTabela()
+            {
+                $.each($('#example tr td:first-child'), function (index, val) {
+                    $(this).html(index + 1)
+                });
+            }
+
+            @*function AdicionarRegistro()
+            {
+                table.row.add({
+                    "sequence": "#",
+                    "name": "Tiger Nixon",
+                    "position": "System Architect",
+                }).draw();
+            }*@
+
+            $('.submit').on('click', function () {
+                $('#example > tbody > tr').each(function () {
+                    var object = [
+                        {
+                            procurador: {
+                                id: $(this).children('.cl_procurador').data('idprocurador'),
+                                nome: $(this).children('.cl_procurador').html(),
+                            }
+                            autorizador: {
+                                id: $(this).children('.cl_autorizador').data('idautorizador'),
+                                nome: $(this).children('.cl_autorizador').html(),
+                            }
+                            documentos: $(this).children('.cl_documentos').data('ids').split(',')
+                        }
+                    ]
+
+                    customObjects.push(object);
+                });
+
+                alert(JSON.stringify(customObjects));
+            });
+
+
+
+
+
+
+
+
+
+            @*var defaultText = '--Selecione--'
+
+            $("#select-documento").CreateMultiCheckBox({
+                defaultText: defaultText,
+            });
+
+            $(document).on("click", ".select-documento-box", function () {
+                var detail = $(this).next();
+
+                if ($(detail).css('display') == 'block')
+                    $(detail).hide();
+                else
+                    $(detail).show();
+            });
+
+            $(document).on("click", ".select-documento-box-header input", function (e) {
+                e.stopPropagation();
+                var hc = $(this).prop("checked");
+
+                $(this).closest(".select-documento-box-detail").find(".select-documento-box-body input").each(function () {
+                    var disabled = $(this).prop('disabled');
+
+                    if (disabled == false)
+                        $(this).prop("checked", hc);
+                });
+
+                //Alterando nome default do select
+                AlterarNomeDefaultSelect(defaultText);
+
+                $(this).closest(".select-documento-box-detail").next().UpdateSelect();
+            });
+
+            $(document).on("click", ".select-documento-box-header", function (e) {
+                var inp = $(this).find("input");
+                var chk = inp.prop("checked");
+                inp.prop("checked", !chk);
+                $(this).closest(".select-documento-box-detail").find(".select-documento-box-body input").each(function () {
+                    var disabled = $(this).prop('disabled');
+
+                    if (disabled == false)
+                        $(this).prop("checked", !chk);
+                });
+
+                //Alterando nome default do select
+                AlterarNomeDefaultSelect(defaultText);
+
+                $(this).closest(".select-documento-box-detail").next().UpdateSelect();
+            });
+
+            $(document).on("click", ".select-documento-box-detail .cont input", function (e) {
+                e.stopPropagation();
+                $(this).closest(".select-documento-box-detail").next().UpdateSelect();
+
+                var val = ($(".select-documento-box-body input:checked").length == $(".select-documento-box-body input").length)
+                $(".select-documento-box-header input").prop("checked", val);
+
+                //Alterando nome default do select
+                AlterarNomeDefaultSelect(defaultText);
+            });
+
+            $(document).on("click", ".select-documento-box-detail .cont", function (e) {
+                var inp = $(this).find("input");
+                var disabled = $(inp).prop("disabled");
+
+                if (disabled === false)
+                {
+                    var chk = inp.prop("checked");
+                    inp.prop("checked", !chk);
+
+                    var multiCheckBoxDetail = $(this).closest(".select-documento-box-detail");
+                    var multiCheckBoxDetailBody = $(this).closest(".select-documento-box-body");
+                    multiCheckBoxDetail.next().UpdateSelect();
+
+                    var val = ($(".select-documento-box-body input:checked").length == $(".select-documento-box-body input").length)
+                    $(".select-documento-box-header input").prop("checked", val);
+
+                    //Alterando nome default do select
+                    AlterarNomeDefaultSelect(defaultText);
+                }
+            });
+
+            $(document).mouseup(function (e) {
+                var container = $(".select-documento-box-detail");
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.hide();
+                }
+            });
+        });
+
+        var defaultMultiCheckBoxOption = { width: '220px', defaultText: '--Selecione--', height: '200px' };
+
+        jQuery.fn.extend({
+            CreateMultiCheckBox: function (options) {
+
+                var localOption = {};
+                localOption.width = (options != null && options.width != null && options.width != undefined) ? options.width : defaultMultiCheckBoxOption.width;
+                localOption.defaultText = (options != null && options.defaultText != null && options.defaultText != undefined) ? options.defaultText : defaultMultiCheckBoxOption.defaultText;
+                localOption.height = (options != null && options.height != null && options.height != undefined) ? options.height : defaultMultiCheckBoxOption.height;
+
+                this.hide();
+                this.attr("multiple", "multiple");
+                var divSel = $("<div class='select-documento-box form-control'>" + localOption.defaultText + "<span class='k-icon k-i-arrow-60-down'><svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='sort-down' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-sort-down fa-w-10 fa-2x'><path fill='currentColor' d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z' class=''></path></svg></span></div>").insertBefore(this);
+
+                var detail = $("<div class='select-documento-box-detail'><div class='select-documento-box-header'><input type='checkbox' class='mulinput' value='-1982' /><div>Select All</div></div><div class='select-documento-box-body'></div></div>").insertAfter(divSel);
+                detail.css({ "width": $(divSel).width() / 2, "max-height": localOption.height });
+                var multiCheckBoxDetailBody = detail.find(".select-documento-box-body");
+
+                this.find("option").each(function () {
+                    var val = $(this).attr("value");
+                    var selected = $(this).attr("selected") !== undefined ? 'checked' : '';
+                    var disabled = $(this).attr("disabled") !== undefined ? 'disabled' : '';
+
+                    if (val == undefined)
+                        val = '';
+
+                    multiCheckBoxDetailBody.append("<div class='cont'><div><input type='checkbox' " + selected + " " + disabled + " data-text='" + $(this).text() +"' class='mulinput' value='" + val + "' /></div><div>" + $(this).text() + "</div></div>");
+                });
+
+                //Alterando nome default do select
+                AlterarNomeDefaultSelect(localOption.defaultText);
+
+                multiCheckBoxDetailBody.css("max-height", (parseInt($(".select-documento-box-detail").css("max-height")) - 28) + "px");
+            },
+            UpdateSelect: function () {
+                var arr = [];
+
+                this.prev().find(".mulinput:checked").each(function () {
+                    arr.push($(this).val());
+                });
+
+                this.val(arr);
+            },*@
+        });
+
+        @*function AlterarNomeDefaultSelect(defaultText)
+        {
+            var documentos = [];
+
+            $('.mulinput:checked').each(function () {
+                var dataText = $(this).data('text');
+
+                if (dataText !== undefined)
+                    documentos.push(dataText);
+            });
+
+            var text = documentos.length > 0 ? documentos.join(', ') : defaultText;
+
+            $('.select-documento-box').text(text);
+            $('.select-documento-box').append("<span class='k-icon k-i-arrow-60-down'><svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='sort-down' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-sort-down fa-w-10 fa-2x'><path fill='currentColor' d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z' class=''></path></svg></span></div>");
+        }*@
+
+    </script>
+}
+
